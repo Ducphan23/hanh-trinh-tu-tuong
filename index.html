@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Tư Tưởng: Khám Phá Di Sản</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ============================================
+         MÀN HÌNH 1: NHẬP TÊN (START SCREEN)
+         ============================================ -->
+    <div id="start-screen" class="screen active">
+        <div class="start-container">
+            <div class="logo-section">
+                <div class="logo-icon">🏛️</div>
+                <h1 class="game-title">Hành Trình Tư Tưởng</h1>
+                <h2 class="game-subtitle">Khám Phá Di Sản</h2>
+            </div>
+            
+            <div class="start-capsule">
+                <div class="capsule-preview">
+                    <div class="capsule-body">
+                        <div class="capsule-face">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                            <div class="mouth"></div>
+                            <div class="blush left"></div>
+                            <div class="blush right"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="capsule-intro">Chú Capsule Chibi sẽ đồng hành cùng bạn! </p>
+            </div>
+            
+            <div class="input-section">
+                <label for="player-name">Nhập tên của bạn</label>
+                <input type="text" id="player-name" placeholder="VD: Nguyễn Văn A..." maxlength="20" autocomplete="off">
+            </div>
+            
+            <div class="game-rules">
+                <h3>📜 Luật chơi</h3>
+                <ul>
+                    <li>🎯 <strong>Vòng 1:</strong> 15 câu hỏi cơ bản (10đ/câu), nhặt trang phục đặc biệt</li>
+                    <li>🌌 <strong>Vòng 2:</strong> 15 câu nâng cao (5-20đ/câu), sử dụng Ngôi sao hy vọng</li>
+                    <li>👕 Mỗi trang phục có hiệu ứng riêng biệt! </li>
+                    <li>✨ Đúng 3 câu liên tiếp ở Vòng 2 = Nhận Hào quang!</li>
+                </ul>
+            </div>
+            
+            <button id="start-btn" class="btn-primary btn-large">
+                <span class="btn-icon">🚀</span>
+                <span>Bắt Đầu Hành Trình</span>
+            </button>
+            
+            <button id="leaderboard-btn" class="btn-secondary">
+                🏆 Xem Bảng Xếp Hạng
+            </button>
+        </div>
+        
+        <!-- Leaderboard Modal trong Start Screen -->
+        <div id="leaderboard-modal" class="modal hidden">
+            <div class="modal-content">
+                <button class="modal-close" id="close-leaderboard">&times;</button>
+                <h2>🏆 Bảng Xếp Hạng</h2>
+                <div id="leaderboard-list" class="leaderboard-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MÀN HÌNH 2A: VÒNG 1 - HÀNH TRANG TRI THỨC
+         ============================================ -->
+    <div id="round1-screen" class="screen game-screen round1-theme">
+        <!-- Header Vòng 1 -->
+        <div class="game-header">
+            <div class="header-left">
+                <div class="round-badge round1-badge">Vòng 1</div>
+                <div class="round-name">Hành Trang Tri Thức</div>
+            </div>
+            <div class="header-center">
+                <div class="question-progress">
+                    <span id="r1-question-current">1</span>
+                    <span class="progress-divider">/</span>
+                    <span id="r1-question-total">15</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="r1-progress-fill"></div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="score-box">
+                    <span class="score-label">Điểm</span>
+                    <span class="score-value" id="r1-current-score">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Game Area Vòng 1 -->
+        <div class="game-main">
+            <!-- Khu vực nhân vật -->
+            <div class="character-area">
+                <!-- Equipment slots bên trái -->
+                <div class="equipment-left">
+                    <div class="equipment-slot" data-slot="hat">
+                        <div id="r1-equip-hat" class="equipment-item"></div>
+                        <span class="slot-label">Mũ</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="top">
+                        <div id="r1-equip-top" class="equipment-item"></div>
+                        <span class="slot-label">Áo</span>
+                    </div>
+                </div>
+
+                <!-- Nhân vật ở giữa -->
+                <div class="character-wrapper">
+                    <div id="r1-capsule-character" class="capsule-character">
+                        <div class="capsule-body">
+                            <div class="capsule-face">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                                <div class="mouth"></div>
+                                <div class="blush left"></div>
+                                <div class="blush right"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Inventory info -->
+                    <div class="inventory-info">
+                        <span class="inventory-icon">🎒</span>
+                        <span id="r1-inventory-count">0/5</span>
+                    </div>
+                </div>
+                
+                <!-- Equipment slots bên phải -->
+                <div class="equipment-right">
+                    <div class="equipment-slot" data-slot="bottom">
+                        <div id="r1-equip-bottom" class="equipment-item"></div>
+                        <span class="slot-label">Quần</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="shoes">
+                        <div id="r1-equip-shoes" class="equipment-item"></div>
+                        <span class="slot-label">Giày</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="vehicle">
+                        <div id="r1-equip-vehicle" class="equipment-item"></div>
+                        <span class="slot-label">Phương tiện</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khu vực câu hỏi (2/5) -->
+            <div class="question-area">
+                <!-- Điểm câu hỏi -->
+                <div class="question-points-wrapper">
+                    <div class="question-points" id="r1-question-points">
+                        <span class="points-value">+10</span>
+                        <span class="points-label">điểm</span>
+                    </div>
+                </div>
+
+                <!-- Câu hỏi -->
+                <div class="question-box round1-question-box">
+                    <div class="question-number" id="r1-question-number">Câu 1</div>
+                    <p class="question-text" id="r1-question-text">Câu hỏi sẽ hiển thị ở đây...</p>
+                </div>
+
+                <!-- Đáp án -->
+                <div class="answers-container" id="r1-answers">
+                    <button class="answer-btn" data-answer="A">
+                        <span class="answer-label">A</span>
+                        <span class="answer-text"></span>
+                    </button>
+                    <button class="answer-btn" data-answer="B">
+                        <span class="answer-label">B</span>
+                        <span class="answer-text"></span>
+                    </button>
+                    <button class="answer-btn" data-answer="C">
+                        <span class="answer-label">C</span>
+                        <span class="answer-text"></span>
+                    </button>
+                    <button class="answer-btn" data-answer="D">
+                        <span class="answer-label">D</span>
+                        <span class="answer-text"></span>
+                    </button>
+                </div>
+
+                <!-- Feedback -->
+                <div id="r1-feedback" class="feedback hidden">
+                    <span class="feedback-icon"></span>
+                    <span class="feedback-text"></span>
+                </div>
+
+                <!-- Nút tiếp tục -->
+                <button id="r1-next-btn" class="btn-next hidden">
+                    Câu tiếp theo
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Item Drop Popup (Vòng 1) -->
+        <div id="item-popup" class="popup hidden">
+            <div class="popup-overlay"></div>
+            <div class="popup-content item-drop-content">
+                <div class="item-glow-effect"></div>
+                <div class="popup-header">
+                    <span class="popup-icon">🎁</span>
+                    <h2>Bạn nhặt được! </h2>
+                </div>
+                <div class="item-display">
+                    <div class="item-icon-large" id="item-icon"></div>
+                    <h3 class="item-name" id="item-name"></h3>
+                    <p class="item-description" id="item-description"></p>
+                    <div class="item-rarity" id="item-rarity"></div>
+                </div>
+                <div class="popup-question">Bạn có muốn mặc không?</div>
+                <div class="popup-buttons">
+                    <button id="equip-item-btn" class="btn-primary">
+                        <span>✅</span> Mặc ngay! 
+                    </button>
+                    <button id="skip-item-btn" class="btn-secondary">
+                        <span>❌</span> Bỏ qua
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Chance Popup (Áo Dài) - Vòng 1 -->
+        <div id="r1-second-chance-popup" class="popup hidden">
+            <div class="popup-overlay"></div>
+            <div class="popup-content second-chance-content">
+                <div class="ao-dai-icon">👘</div>
+                <h2>Áo Dài Hộ Mệnh! </h2>
+                <p>May mắn thay, áo dài cho bạn cơ hội chọn lại đáp án!</p>
+                <button id="r1-retry-btn" class="btn-primary">
+                    🔄 Chọn lại đáp án
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MÀN HÌNH CHUYỂN CẢNH: VÒNG 1 -> VÒNG 2
+         ============================================ -->
+    <div id="transition-screen" class="screen">
+        <div class="transition-container">
+            <div class="transition-content-wrapper">
+                <!-- Phần hoàn thành Vòng 1 -->
+                <div class="transition-complete">
+                    <div class="transition-stars">✨🎉✨</div>
+                    <h2>Hoàn Thành Vòng 1! </h2>
+                    <div class="transition-score-display">
+                        <span class="score-label">Điểm Vòng 1</span>
+                        <span class="score-value" id="transition-r1-score">0</span>
+                    </div>
+                    <div class="items-collected">
+                        <span>Trang bị đã nhặt:</span>
+                        <div id="transition-items-list" class="transition-items"></div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="transition-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon">⬇️</div>
+                    <div class="divider-line"></div>
+                </div>
+
+                <!-- Phần giới thiệu Vòng 2 -->
+                <div class="transition-intro">
+                    <div class="galaxy-icon">🌌</div>
+                    <h2>Bước Vào Tiềm Thức</h2>
+                    <p class="transition-description">
+                        Vòng 2 với những câu hỏi nâng cao đang chờ bạn! 
+                    </p>
+                    
+                    <div class="round2-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">🎲</span>
+                            <span class="feature-text">Điểm ngẫu nhiên từ 5-20 mỗi câu</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⭐</span>
+                            <span class="feature-text">Sử dụng Ngôi sao hy vọng để x2 điểm</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✨</span>
+                            <span class="feature-text">Đúng 3 câu liên tiếp = Hào quang</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💫</span>
+                            <span class="feature-text">Nhân vật sẽ phát sáng trong bóng tối</span>
+                        </div>
+                    </div>
+
+                    <!-- Preview nhân vật với glow -->
+                    <div class="transition-character-preview">
+                        <div class="glow-preview-wrapper">
+                            <div class="capsule-character glow">
+                                <div class="capsule-body">
+                                    <div class="capsule-face">
+                                        <div class="eye left"></div>
+                                        <div class="eye right"></div>
+                                        <div class="mouth"></div>
+                                        <div class="blush left"></div>
+                                        <div class="blush right"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="start-round2-btn" class="btn-primary btn-large btn-glow">
+                    <span>🌌</span>
+                    <span>Bắt Đầu Vòng 2</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MÀN HÌNH 2B: VÒNG 2 - TIỀM THỨC
+         ============================================ -->
+    <div id="round2-screen" class="screen game-screen round2-theme">
+        <!-- Hiệu ứng stars background -->
+        <div class="stars-background">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+
+        <!-- Header Vòng 2 -->
+        <div class="game-header round2-header">
+            <div class="header-left">
+                <div class="round-badge round2-badge">Vòng 2</div>
+                <div class="round-name round2-name">Tiềm Thức</div>
+            </div>
+            <div class="header-center">
+                <div class="question-progress">
+                    <span id="r2-question-current">1</span>
+                    <span class="progress-divider">/</span>
+                    <span id="r2-question-total">15</span>
+                </div>
+                <div class="progress-bar round2-progress">
+                    <div class="progress-fill" id="r2-progress-fill"></div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="score-box round2-score-box">
+                    <span class="score-label">Điểm</span>
+                    <span class="score-value" id="r2-current-score">0</span>
+                </div>
+                <div class="star-box" id="r2-star-box">
+                    <span class="star-icon">⭐</span>
+                    <span class="star-value" id="r2-star-count">5</span>
+                </div>
+                <div class="streak-box" id="r2-streak-box">
+                    <span class="streak-icon">🔥</span>
+                    <span class="streak-value" id="r2-streak-count">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Game Area Vòng 2 -->
+        <div class="game-main">
+            <!-- Khu vực nhân vật -->
+            <div class="character-area round2-character-area">
+                <!-- Equipment slots bên trái -->
+                <div class="equipment-left">
+                    <div class="equipment-slot" data-slot="hat">
+                        <div id="r2-equip-hat" class="equipment-item"></div>
+                        <span class="slot-label">Mũ</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="top">
+                        <div id="r2-equip-top" class="equipment-item"></div>
+                        <span class="slot-label">Áo</span>
+                    </div>
+                </div>
+
+                <!-- Nhân vật ở giữa -->
+                <div class="character-wrapper">
+                    <!-- Hào quang container -->
+                    <div id="r2-halo-container" class="halo-container"></div>
+                    
+                    <div id="r2-capsule-character" class="capsule-character glow">
+                        <div class="capsule-body">
+                            <div class="capsule-face">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                                <div class="mouth"></div>
+                                <div class="blush left"></div>
+                                <div class="blush right"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Streak indicator -->
+                    <div class="streak-indicator" id="streak-indicator">
+                        <div class="streak-flames">
+                            <span>🔥</span>
+                            <span id="streak-display">0</span>
+                            <span>câu liên tiếp</span>
+                        </div>
+                        <div class="streak-progress">
+                            <div class="streak-progress-fill" id="streak-progress-fill"></div>
+                        </div>
+                        <div class="streak-hint">Đúng thêm <span id="streak-remaining">3</span> câu để nhận Hào quang! </div>
+                    </div>
+                </div>
+                
+                <!-- Equipment slots bên phải -->
+                <div class="equipment-right">
+                    <div class="equipment-slot" data-slot="bottom">
+                        <div id="r2-equip-bottom" class="equipment-item"></div>
+                        <span class="slot-label">Quần</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="shoes">
+                        <div id="r2-equip-shoes" class="equipment-item"></div>
+                        <span class="slot-label">Giày</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="vehicle">
+                        <div id="r2-equip-vehicle" class="equipment-item"></div>
+                        <span class="slot-label">Phương tiện</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khu vực câu hỏi (2/5) -->
+            <div class="question-area round2-question-area">
+                <!-- Điểm câu hỏi (random) -->
+                <div class="question-points-wrapper">
+                    <div class="question-points round2-points" id="r2-question-points">
+                        <span class="points-icon">🎲</span>
+                        <span class="points-value" id="r2-points-value">+15</span>
+                        <span class="points-label">điểm</span>
+                    </div>
+                </div>
+                
+                <!-- Star Prompt -->
+                <div id="r2-star-prompt" class="star-prompt hidden">
+                    <div class="star-prompt-content">
+                        <span class="star-prompt-icon">⭐</span>
+                        <span class="star-prompt-text">Ngôi Sao Hy Vọng xuất hiện! </span>
+                    </div>
+                    <div class="star-prompt-buttons">
+                        <button id="use-star-btn" class="btn-star">Dùng (x2 điểm)</button>
+                        <button id="skip-star-btn" class="btn-skip">Bỏ qua</button>
+                    </div>
+                </div>
+
+                <!-- Câu hỏi -->
+                <div class="question-box round2-question-box">
+                    <div class="question-number" id="r2-question-number">Câu 1</div>
+                    <p class="question-text" id="r2-question-text">Câu hỏi sẽ hiển thị ở đây...</p>
+                </div>
+
+                <!-- Đáp án -->
+                <div class="answers-container" id="r2-answers">
+                    <button class="answer-btn round2-answer" data-answer="A">
+                        <span class="answer-label">A</span>
+                        <span class="answer-text"></span>
+                    </button>
+                    <button class="answer-btn round2-answer" data-answer="B">
+                        <span class="answer-label">B</span>
+                        <span class="answer-text"></span>
+                    </button>
+                    <button class="answer-btn round2-answer" data-answer="C">
+                        <span class="answer-label">C</span>
+                        <span class="answer-text"></span>
+                    </button>
+                    <button class="answer-btn round2-answer" data-answer="D">
+                        <span class="answer-label">D</span>
+                        <span class="answer-text"></span>
+                    </button>
+                </div>
+
+                <!-- Feedback -->
+                <div id="r2-feedback" class="feedback hidden">
+                    <span class="feedback-icon"></span>
+                    <span class="feedback-text"></span>
+                </div>
+
+                <!-- Nút tiếp tục -->
+                <button id="r2-next-btn" class="btn-next round2-next hidden">
+                    Câu tiếp theo
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Second Chance Popup (Áo Dài) - Vòng 2 -->
+        <div id="r2-second-chance-popup" class="popup hidden">
+            <div class="popup-overlay"></div>
+            <div class="popup-content second-chance-content round2-popup">
+                <div class="ao-dai-icon">👘</div>
+                <h2>Áo Dài Hộ Mệnh!</h2>
+                <p>May mắn thay, áo dài cho bạn cơ hội chọn lại đáp án!</p>
+                <button id="r2-retry-btn" class="btn-primary">
+                    🔄 Chọn lại đáp án
+                </button>
+            </div>
+        </div>
+
+        <!-- Halo Unlock Notification -->
+        <div id="halo-notification" class="notification hidden">
+            <div class="notification-content halo-unlock">
+                <span class="notification-icon">✨</span>
+                <span class="notification-text">Hào quang cấp <span id="halo-level">1</span> đã được kích hoạt!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MÀN HÌNH 3: KẾT THÚC (END SCREEN)
+         ============================================ -->
+    <div id="end-screen" class="screen">
+        <div class="end-container">
+            <!-- Header -->
+            <div class="end-header">
+                <div class="fireworks">🎆🎇🎆</div>
+                <h1>🏆 Hoàn Thành Hành Trình! </h1>
+                <p class="player-name-display">Chúc mừng, <strong id="end-player-name">Người chơi</strong>!</p>
+            </div>
+
+            <!-- Nhân vật cuối game với đầy đủ trang bị -->
+            <div class="end-character-section">
+                <div class="end-character-wrapper">
+                    <div id="end-halo-container" class="halo-container"></div>
+                    <div id="end-capsule" class="capsule-character">
+                        <div class="capsule-body">
+                            <div class="capsule-face">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                                <div class="mouth happy"></div>
+                                <div class="blush left"></div>
+                                <div class="blush right"></div>
+                            </div>
+                        </div>
+                        <div id="end-equip-hat" class="equipment hat"></div>
+                        <div id="end-equip-top" class="equipment top"></div>
+                        <div id="end-equip-bottom" class="equipment bottom"></div>
+                        <div id="end-equip-shoes" class="equipment shoes"></div>
+                        <div id="end-equip-vehicle" class="equipment vehicle"></div>
+                    </div>
+                </div>
+                <div class="equipped-items-list" id="end-equipped-list"></div>
+            </div>
+
+            <!-- Bảng điểm chi tiết -->
+            <div class="score-breakdown">
+                <h3>📊 Chi Tiết Điểm Số</h3>
+                
+                <div class="score-section">
+                    <div class="score-row">
+                        <span class="score-label-text">
+                            <span class="score-icon">📝</span>
+                            Điểm Vòng 1
+                        </span>
+                        <span class="score-value" id="final-round1">0</span>
+                    </div>
+                    <div class="score-row">
+                        <span class="score-label-text">
+                            <span class="score-icon">🌌</span>
+                            Điểm Vòng 2
+                        </span>
+                        <span class="score-value" id="final-round2">0</span>
+                    </div>
+                </div>
+
+                <div class="score-section bonus-section" id="bonus-section">
+                    <div class="section-title">🎁 Bonus Trang Phục</div>
+                    <div id="bonus-details" class="bonus-details"></div>
+                </div>
+
+                <div class="score-total">
+                    <span class="total-label">TỔNG ĐIỂM</span>
+                    <span class="total-value" id="final-total">0</span>
+                </div>
+            </div>
+
+            <!-- Xếp hạng -->
+            <div class="rank-section">
+                <div class="rank-badge" id="rank-badge">🏆</div>
+                <h2 class="rank-title" id="rank-title">Nhà Tư Tưởng Đại Tài</h2>
+                <p class="rank-description" id="rank-description"></p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="end-buttons" id="end-buttons">
+                <button id="play-again-btn" class="btn-primary btn-large">
+                    <span>🔄</span> Chơi Lại
+                </button>
+                <button id="share-btn" class="btn-secondary">
+                    <span>📤</span> Chia Sẻ Kết Quả
+                </button>
+                <button id="view-leaderboard-btn" class="btn-secondary">
+                    <span>🏆</span> Bảng Xếp Hạng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Modal (separate from end screen) -->
+    <div id="end-leaderboard-modal" class="modal hidden">
+        <div class="modal-content leaderboard-modal-content">
+            <button class="modal-close" id="close-end-leaderboard">&times;</button>
+            <h2>🏆 Top 10 Người Chơi</h2>
+            <div id="end-leaderboard-list" class="leaderboard-list"></div>
+        </div>
+    </div>
+
+    <!-- Gamble Modal (Áo Tứ Thân) -->
+    <div id="gamble-modal" class="modal hidden">
+        <div class="modal-content gamble-modal-content">
+            <div class="gamble-header">
+                <span class="gamble-icon">👗</span>
+                <h3>Áo Tứ Thân - Vận May Quyết Định!</h3>
+            </div>
+            <p class="gamble-description">50% cơ hội nhân đôi điểm | 50% mất nửa điểm</p>
+            <p class="gamble-warning">⚠️ Bạn đã mặc Áo Tứ Thân - Phải quay xúc xắc!</p>
+            <div class="dice-container">
+                <div id="dice" class="dice">🎲</div>
+            </div>
+            <div id="gamble-result" class="gamble-result hidden"></div>
+            <button id="roll-dice-btn" class="btn-primary btn-gamble">
+                🎲 Quay Xúc Xắc!
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================
+         GLOBAL LOADING SCREEN
+         ============================================ -->
+    <div id="loading-screen" class="loading-screen hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Đang tải...</p>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="items.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
