@@ -21,15 +21,10 @@
             
             <div class="start-capsule">
                 <div class="capsule-preview">
-                    <div class="capsule-body">
-                        <div class="capsule-face">
-                            <div class="eye left"></div>
-                            <div class="eye right"></div>
-                            <div class="mouth"></div>
-                            <div class="blush left"></div>
-                            <div class="blush right"></div>
-                        </div>
-                    </div>
+                    <video class="capsule-video" autoplay loop muted playsinline>
+                        <source src="idle_cropped.webm" type="video/webm">
+                        <source src="idle.mov" type="video/quicktime">
+                    </video>
                 </div>
                 <p class="capsule-intro">Chú Capsule Chibi sẽ đồng hành cùng bạn! </p>
             </div>
@@ -116,15 +111,10 @@
                 <!-- Nhân vật ở giữa -->
                 <div class="character-wrapper">
                     <div id="r1-capsule-character" class="capsule-character">
-                        <div class="capsule-body">
-                            <div class="capsule-face">
-                                <div class="eye left"></div>
-                                <div class="eye right"></div>
-                                <div class="mouth"></div>
-                                <div class="blush left"></div>
-                                <div class="blush right"></div>
-                            </div>
-                        </div>
+                        <video class="capsule-video" autoplay loop muted playsinline>
+                            <source src="idle_cropped.webm" type="video/webm">
+                            <source src="idle.mov" type="video/quicktime">
+                        </video>
                     </div>
                     <!-- Inventory info -->
                     <div class="inventory-info">
@@ -299,15 +289,10 @@
                     <div class="transition-character-preview">
                         <div class="glow-preview-wrapper">
                             <div class="capsule-character glow">
-                                <div class="capsule-body">
-                                    <div class="capsule-face">
-                                        <div class="eye left"></div>
-                                        <div class="eye right"></div>
-                                        <div class="mouth"></div>
-                                        <div class="blush left"></div>
-                                        <div class="blush right"></div>
-                                    </div>
-                                </div>
+                                <video class="capsule-video" autoplay loop muted playsinline>
+                                    <source src="idle_cropped.webm" type="video/webm">
+                                    <source src="idle.mov" type="video/quicktime">
+                                </video>
                             </div>
                         </div>
                     </div>
@@ -392,15 +377,10 @@
                     <div id="r2-halo-container" class="halo-container"></div>
                     
                     <div id="r2-capsule-character" class="capsule-character glow">
-                        <div class="capsule-body">
-                            <div class="capsule-face">
-                                <div class="eye left"></div>
-                                <div class="eye right"></div>
-                                <div class="mouth"></div>
-                                <div class="blush left"></div>
-                                <div class="blush right"></div>
-                            </div>
-                        </div>
+                        <video class="capsule-video" autoplay loop muted playsinline>
+                            <source src="idle_cropped.webm" type="video/webm">
+                            <source src="idle.mov" type="video/quicktime">
+                        </video>
                     </div>
                     
                     <!-- Streak indicator -->
@@ -442,18 +422,6 @@
                         <span class="points-icon">🎲</span>
                         <span class="points-value" id="r2-points-value">+15</span>
                         <span class="points-label">điểm</span>
-                    </div>
-                </div>
-                
-                <!-- Star Prompt -->
-                <div id="r2-star-prompt" class="star-prompt hidden">
-                    <div class="star-prompt-content">
-                        <span class="star-prompt-icon">⭐</span>
-                        <span class="star-prompt-text">Ngôi Sao Hy Vọng xuất hiện! </span>
-                    </div>
-                    <div class="star-prompt-buttons">
-                        <button id="use-star-btn" class="btn-star">Dùng (x2 điểm)</button>
-                        <button id="skip-star-btn" class="btn-skip">Bỏ qua</button>
                     </div>
                 </div>
 
@@ -517,6 +485,21 @@
                 <span class="notification-text">Hào quang cấp <span id="halo-level">1</span> đã được kích hoạt!</span>
             </div>
         </div>
+
+        <!-- Star Prompt Notification -->
+        <div id="r2-star-prompt" class="star-prompt-notification hidden">
+            <div class="star-prompt-overlay"></div>
+            <div class="star-prompt-modal">
+                <div class="star-prompt-content">
+                    <span class="star-prompt-icon">⭐</span>
+                    <span class="star-prompt-text">Ngôi Sao Hy Vọng xuất hiện!</span>
+                </div>
+                <div class="star-prompt-buttons">
+                    <button id="use-star-btn" class="btn-star">Dùng (x2 điểm)</button>
+                    <button id="skip-star-btn" class="btn-skip">Bỏ qua</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ============================================
@@ -533,26 +516,44 @@
 
             <!-- Nhân vật cuối game với đầy đủ trang bị -->
             <div class="end-character-section">
+                <!-- Equipment slots bên trái -->
+                <div class="equipment-left end-equipment">
+                    <div class="equipment-slot" data-slot="hat">
+                        <div id="end-equip-hat" class="equipment-item"></div>
+                        <span class="slot-label">Mũ</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="top">
+                        <div id="end-equip-top" class="equipment-item"></div>
+                        <span class="slot-label">Áo</span>
+                    </div>
+                </div>
+
+                <!-- Nhân vật ở giữa -->
                 <div class="end-character-wrapper">
                     <div id="end-halo-container" class="halo-container"></div>
                     <div id="end-capsule" class="capsule-character">
-                        <div class="capsule-body">
-                            <div class="capsule-face">
-                                <div class="eye left"></div>
-                                <div class="eye right"></div>
-                                <div class="mouth happy"></div>
-                                <div class="blush left"></div>
-                                <div class="blush right"></div>
-                            </div>
-                        </div>
-                        <div id="end-equip-hat" class="equipment hat"></div>
-                        <div id="end-equip-top" class="equipment top"></div>
-                        <div id="end-equip-bottom" class="equipment bottom"></div>
-                        <div id="end-equip-shoes" class="equipment shoes"></div>
-                        <div id="end-equip-vehicle" class="equipment vehicle"></div>
+                        <video class="capsule-video" autoplay loop muted playsinline>
+                            <source src="idle_cropped.webm" type="video/webm">
+                            <source src="idle.mov" type="video/quicktime">
+                        </video>
                     </div>
                 </div>
-                <div class="equipped-items-list" id="end-equipped-list"></div>
+
+                <!-- Equipment slots bên phải -->
+                <div class="equipment-right end-equipment">
+                    <div class="equipment-slot" data-slot="bottom">
+                        <div id="end-equip-bottom" class="equipment-item"></div>
+                        <span class="slot-label">Quần</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="shoes">
+                        <div id="end-equip-shoes" class="equipment-item"></div>
+                        <span class="slot-label">Giày</span>
+                    </div>
+                    <div class="equipment-slot" data-slot="vehicle">
+                        <div id="end-equip-vehicle" class="equipment-item"></div>
+                        <span class="slot-label">Phương tiện</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Bảng điểm chi tiết -->

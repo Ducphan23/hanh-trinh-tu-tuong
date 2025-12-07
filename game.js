@@ -800,17 +800,18 @@ class Game {
         this.updateCharacterEquipment();
         this.updateHalo();
         
-        // Update equipped items list
-        const equippedList = document.getElementById('end-equipped-list');
-        equippedList.innerHTML = '';
-        Object.values(this.equippedItems).forEach(itemId => {
-            if (!itemId) return;
-            const item = ITEMS[itemId];
-            if (!item) return;
-            const span = document.createElement('span');
-            span.className = 'inventory-item';
-            span.innerHTML = `${item.icon} ${item.name}`;
-            equippedList.appendChild(span);
+        // Update equipment slots on end screen
+        const slots = ['hat', 'top', 'bottom', 'shoes', 'vehicle'];
+        slots.forEach(slot => {
+            const itemId = this.equippedItems[slot];
+            const slotElement = document.getElementById(`end-equip-${slot}`);
+            if (slotElement) {
+                if (itemId && ITEMS[itemId]) {
+                    slotElement.textContent = ITEMS[itemId].icon;
+                } else {
+                    slotElement.textContent = '';
+                }
+            }
         });
         
         // Save to leaderboard
